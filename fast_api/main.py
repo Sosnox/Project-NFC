@@ -7,7 +7,7 @@ def test_connection():
     try:
         # Establish MySQL connection
         connection = mysql.connector.connect(
-            host="localhost",
+            host="210.246.215.173",
             user="xenon",
             password="xenon",
             database="db-nfc-game"
