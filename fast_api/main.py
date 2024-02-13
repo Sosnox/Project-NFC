@@ -15,12 +15,12 @@ def connect_to_mysql():
     except mysql.connector.Error as e:
         raise HTTPException(status_code=500, detail=f"Error connecting to MySQL database: {e}")
 
-def insert_data(detail_report: str):
+def insert_data(name_report: str, contact: str, detail_report: str, rating: int, checktypes: str):
     connection = connect_to_mysql()
     cursor = connection.cursor()
     try:
-        query = "INSERT INTO Report (detail_report) VALUES (%s)"
-        data = (detail_report,)
+        query = "INSERT INTO Report (name_report, contact, detail_report, rating, checktypes) VALUES (%s, %s, %s, %s, %s)"
+        data = (name_report, contact, detail_report, rating, checktypes)
         cursor.execute(query, data)
         connection.commit()
         return {"message": "Data inserted successfully"}
@@ -31,5 +31,5 @@ def insert_data(detail_report: str):
         connection.close()
 
 @app.post("/insert-data/")
-async def insert_feedback(detail_report: str):
-    return insert_data(detail_report)
+async def insert_feedback(name_report: str, contact: str, detail_report: str, rating: int, checktypes: str):
+    return insert_data(name_report, contact, detail_report, rating, checktypes)
