@@ -75,7 +75,11 @@ def get_report_data():
 
 
 def insert_feedback(
-    name_report: str, contact: str, detail_report: str, rating: int, checktypes: str
+    name_report: str,
+    contact: str,
+    detail_report: str,
+    rating: int,
+    checktypes: str
 ):
     connection = connect_to_mysql()
     cursor = connection.cursor()
@@ -103,8 +107,8 @@ async def insert_feedback(
     checktypes: str = Form(...),
 ):
     try:
-        return insert_feedback(name_report, contact, detail_report, rating, checktypes)
-
+        response = insert_feedback(name_report, contact, detail_report, rating, checktypes)
+        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
 
