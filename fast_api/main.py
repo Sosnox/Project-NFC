@@ -1,5 +1,5 @@
 import shutil
-from fastapi import FastAPI, HTTPException, Request,File, UploadFile, Form
+from fastapi import FastAPI, HTTPException, Request, File, UploadFile, Form
 
 import mysql.connector
 from pydantic import BaseModel
@@ -16,12 +16,15 @@ app.add_middleware(
     allow_methods=["*"],  # อนุญาตให้ใช้ทุก HTTP methods
     allow_headers=["*"],  # อนุญาตให้ใช้ทุก headers
 )
+
+
 class FeedbackData(BaseModel):
     name_report: str
     contact: str
     detail_report: str
     rating: int
     checktypes: str
+
 
 class BoardGameData(BaseModel):
     title_game: str
@@ -33,20 +36,19 @@ class BoardGameData(BaseModel):
     time_playing: int
     count_scan_boardgame: int
 
+
 class CardData(BaseModel):
-    title_card : str
-    detail_card : str
-    path_image_card : str
+    title_card: str
+    detail_card: str
+    path_image_card: str
     count_scan_card: int
     id_boardgame: int
+
 
 def connect_to_mysql():
     try:
         connection = mysql.connector.connect(
-            host="mysqldb",
-            user="xenon",
-            password="xenon",
-            database="db-nfc-game"
+            host="mysqldb", user="xenon", password="xenon", database="db-nfc-game"
         )
         return connection
     except mysql.connector.Error as e:
@@ -91,6 +93,7 @@ def get_report_data():
         cursor.close()
         connection.close()
 
+
 @app.get("/get_all_feedback/")
 async def get_report():
     try:
@@ -98,6 +101,7 @@ async def get_report():
         return report_data
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
+
 
 @app.get("/get_feedback_by_id/")
 async def get_report(id: str):
@@ -129,7 +133,7 @@ async def post_card(
     detail_card: str = Form(...),
     count_scan_card: int = Form(...),
     id_boardgame: int = Form(...),
-    file: UploadFile = File(...)
+    file: UploadFile = File(...),
 ):
     try:
         # Save uploaded file to a directory
@@ -138,13 +142,20 @@ async def post_card(
             shutil.copyfileobj(file.file, buffer)
 
         # Assuming 'insert_card_data' is adapted to accept a file path for 'path_image_card'
-        response = insert_card_data(title_card, detail_card, file_location, count_scan_card, id_boardgame)
+        response = insert_card_data(
+            title_card, detail_card, file_location, count_scan_card, id_boardgame
+        )
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
 
+
 def insert_card_data(
-    title_card: str, detail_card: str, path_image_card: str, count_scan_card: int , id_boardgame: int
+    title_card: str,
+    detail_card: str,
+    path_image_card: str,
+    count_scan_card: int,
+    id_boardgame: int,
 ):
     connection = connect_to_mysql()
     cursor = connection.cursor()
@@ -156,7 +167,9 @@ def insert_card_data(
 
         id_card = cursor.lastrowid  # รับค่า id ของข้อมูลที่เพิ่มล่าสุด
 
-        query = "INSERT INTO Connect_BoardGame_Card (id_boardgame, id_card) VALUES (%s, %s)"
+        query = (
+            "INSERT INTO Connect_BoardGame_Card (id_boardgame, id_card) VALUES (%s, %s)"
+        )
         data = (id_boardgame, id_card)
         cursor.execute(query, data)
         connection.commit()
@@ -168,18 +181,33 @@ def insert_card_data(
         )
     finally:
         cursor.close()
-        connection.close(
-)
+        connection.close()
 
 
 def insert_boardgame(
-    title_game: str, detail_game: str, path_image_boardgame: str, player_recommend_start: int, player_recommend_end: int, age_recommend: int, time_playing: int, count_scan_boardgame: int
+    title_game: str,
+    detail_game: str,
+    path_image_boardgame: str,
+    player_recommend_start: int,
+    player_recommend_end: int,
+    age_recommend: int,
+    time_playing: int,
+    count_scan_boardgame: int,
 ):
     connection = connect_to_mysql()
     cursor = connection.cursor()
     try:
         query = "INSERT INTO BoardGame (title_game , detail_game , path_image_boardgame , player_recommend_start , player_recommend_end , age_recommend , time_playing , count_scan_boardgame) VALUES (%s, %s, %s, %s, %s , %s , %s , %s)"
-        data = (title_game, detail_game, path_image_boardgame, player_recommend_start, player_recommend_end, age_recommend, time_playing, count_scan_boardgame)
+        data = (
+            title_game,
+            detail_game,
+            path_image_boardgame,
+            player_recommend_start,
+            player_recommend_end,
+            age_recommend,
+            time_playing,
+            count_scan_boardgame,
+        )
         cursor.execute(query, data)
         connection.commit()
         return {"message": "Data inserted successfully"}
@@ -190,6 +218,7 @@ def insert_boardgame(
     finally:
         cursor.close()
         connection.close()
+
 
 @app.post("/post_boardgame/")
 async def post_boardgame(boardgame_data: BoardGameData):
@@ -203,9 +232,19 @@ async def post_boardgame(boardgame_data: BoardGameData):
         time_playing = boardgame_data.time_playing
         count_scan_boardgame = boardgame_data.count_scan_boardgame
 
-        return insert_boardgame(title_game, detail_game, path_image_boardgame, player_recommend_start, player_recommend_end, age_recommend, time_playing, count_scan_boardgame)
+        return insert_boardgame(
+            title_game,
+            detail_game,
+            path_image_boardgame,
+            player_recommend_start,
+            player_recommend_end,
+            age_recommend,
+            time_playing,
+            count_scan_boardgame,
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
+
 
 @app.get("/get_all_boardgame/")
 async def get_report():
@@ -214,7 +253,8 @@ async def get_report():
         return boardgame_data
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
-    
+
+
 def get_boardgame_data():
     connection = connect_to_mysql()
     cursor = connection.cursor(dictionary=True)
@@ -230,3 +270,28 @@ def get_boardgame_data():
     finally:
         cursor.close()
         connection.close()
+
+
+@app.get("/get_all_card_by_id_boardgame/")
+async def get_card_by_id_boardgame(id_boardgame: int):
+    try:
+        card_data = get_card_data_by_id_boardgame_data(id_boardgame)
+        return card_data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
+
+
+def get_card_data_by_id_boardgame_data(id_boardgame: int):
+    connection = connect_to_mysql()
+    cursor = connection.cursor(dictionary=True)
+
+    try:
+        query = "SELECT Card.id_card, Card.title_card, Card.detail_card, Card.path_image_card, Card.count_scan_card FROM Card INNER JOIN Connect_BoardGame_Card ON Card.id_card = Connect_BoardGame_Card.id_card WHERE Connect_BoardGame_Card.id_boardgame = %s"
+        data = (id_boardgame,)
+        cursor.execute(query, data)
+        result = cursor.fetchall()
+        return result
+    except mysql.connector.Error as e:
+        raise HTTPException(
+            status_code=500, detail=f"Error fetching data from MySQL database: {e}"
+        )
