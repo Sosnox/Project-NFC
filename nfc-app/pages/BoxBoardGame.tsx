@@ -4,15 +4,11 @@ import CardBoard from '../components/card_board';
 import { MdOutlineArrowBackIos } from "react-icons/md";
 
 
-
-
-
 export default function BoxBoardGamePage() {
 
     const goBack = () => {
         window.history.back();
     }
-
 
     return (
         <div className="p-10">
@@ -26,7 +22,7 @@ export default function BoxBoardGamePage() {
             </div>
 
             <div className='flex flex-col items-center'>
-                <iframe className="mb-10 rounded-lg" width="300" height="200" src="https://www.youtube.com/embed/d0OoxTyyaDw"></iframe>
+                <iframe className="mb-10 rounded-lg" width="300" height="200" title="Vdo" src="https://www.youtube.com/embed/d0OoxTyyaDw"></iframe>
 
                 <label className='text-2xl font-bold pb-5 underline'>คำอธิบาย</label>
 

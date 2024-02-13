@@ -1,55 +1,86 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { Input } from "@nextui-org/react";
+import FiveStar from '@/components/fivestar';
 
 export default function FeedbackPage() {
+
+    type InputValue = {
+        name: string;
+        contact: string;
+        comment: string;
+        rating: number;
+    }
+
+    const [valueInput , setValueInput] = useState<InputValue>({
+        name: '',
+        contact: '',
+        comment: '',
+        rating: 0
+    })
+    
+    const submitData = () => {
+        // valueInput ////////////////////////////////////////////////////////////////////
+    }
+    console.log(valueInput)
+
     return (
-        <div className="flex flex-col items-center p-12 h-screen ">
-
+        <div className="flex flex-col items-center p-12 ">
             <label className='text-3xl font-bold pb-10'>Feedback Form</label>
-
-
-            <div className='flex flex-col gap-4 w-full pb-10'>
+            <div className='flex flex-col gap-4 pb-5 w-full justify-center items-center'>
                 <Input
-                    isReadOnly
                     type="text"
                     label="Name"
                     variant="bordered"
                     placeholder='Name Surname'
-                    // defaultValue="Name"
+                    onChange={(e) => {
+                        setValueInput(prevState => ({
+                            ...prevState,
+                            name: e.target.value,
+                        }));
+                    }}
                     className="max-w-xs"
                 />
-
                 <Input
-                    isReadOnly
                     type="text"
                     label="Contact"
                     variant="bordered"
                     placeholder='junior@nextui.org'
-                    // defaultValue="junior@nextui.org"
+                    onChange={(e) => {
+                        setValueInput(prevState => ({
+                            ...prevState,
+                            contact: e.target.value,
+                        }));
+                    }}
                     className="max-w-xs"
                 />
             </div>
 
-            <div className='flex flex-col items-start w-full pb-4'>
+            <div className='flex flex-col w-full pb-4 sm:items-center items-start'>
                 <div>Share</div>
-                <div className="rating">
-                    <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
-                    <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" checked />
-                    <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
-                    <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
-                    <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
-                </div>
+                <FiveStar rating={(rating : number) => {
+                    setValueInput(prevState => ({
+                        ...prevState,
+                        rating: rating,
+                    }));
+                }} />
             </div>
             <Input
-                isReadOnly
                 type="email"
                 label="Comment"
                 variant="bordered"
-                // defaultValue="junior@nextui.org"
+                onChange={(e) => {
+                    setValueInput(prevState => ({
+                        ...prevState,
+                        comment: e.target.value,
+                    }));
+                }}
                 placeholder='Add your comments...'
                 className="max-w-xs"
             />
+            <div className='flex w-full justify-end md:justify-center'>
+            <button className='bg-blue-500 text-white p-2 rounded-md mt-5 hover:bg-slate-600' onClick={submitData}>Submit</button>
+            </div>
         </div>
     );
 }

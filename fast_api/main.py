@@ -1,24 +1,35 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 import mysql.connector
 
 app = FastAPI()
 
-def test_connection():
+def connect_to_mysql():
     try:
-        # Establish MySQL connection
         connection = mysql.connector.connect(
-            host="210.246.215.173",
+            host="mysqldb",
             user="xenon",
             password="xenon",
             database="db-nfc-game"
         )
-        # If connection is successful, return a success message
-        return "Connection to MySQL database successful"
+        return connection
     except mysql.connector.Error as e:
-        # If an error occurs, return the error message
-        return f"Error connecting to MySQL database: {e}"
+        raise HTTPException(status_code=500, detail=f"Error connecting to MySQL database: {e}")
 
-@app.get("/test-connection/")
-async def check_connection():
-    # Call the test_connection function to test the connection
-    return test_connection()
+def insert_data(detail_report: str):
+    connection = connect_to_mysql()
+    cursor = connection.cursor()
+    try:
+        query = "INSERT INTO Report (detail_report) VALUES (%s)"
+        data = (detail_report,)
+        cursor.execute(query, data)
+        connection.commit()
+        return {"message": "Data inserted successfully"}
+    except mysql.connector.Error as e:
+        raise HTTPException(status_code=500, detail=f"Error inserting data into MySQL database: {e}")
+    finally:
+        cursor.close()
+        connection.close()
+
+@app.post("/insert-data/")
+async def insert_feedback(detail_report: str):
+    return insert_data(detail_report)
