@@ -1,8 +1,15 @@
 from fastapi import FastAPI, HTTPException, Request
 import mysql.connector
+from pydantic import BaseModel
 
 app = FastAPI()
 
+class FeedbackData(BaseModel):
+    name_report: str
+    contact: str
+    detail_report: str
+    rating: int
+    checktypes: str
 
 def connect_to_mysql():
     try:
@@ -37,14 +44,13 @@ def insert_data(
 
 
 @app.post("/Feedback/")
-async def insert_feedback(request: Request):
+async def insert_feedback(feedback_data: FeedbackData):
     try:
-        data = await request.json()
-        name_report = data.get("name_report")
-        contact = data.get("contact")
-        detail_report = data.get("detail_report")
-        rating = data.get("rating")
-        checktypes = data.get("checktypes")
+        name_report = feedback_data.name_report
+        contact = feedback_data.contact
+        detail_report = feedback_data.detail_report
+        rating = feedback_data.rating
+        checktypes = feedback_data.checktypes
 
         return insert_data(name_report, contact, detail_report, rating, checktypes)
     except Exception as e:

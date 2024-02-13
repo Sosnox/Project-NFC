@@ -11,7 +11,7 @@ interface FeedbackData {
 
 const sendDataToFastAPI = async (data: FeedbackData): Promise<unknown> => {
   try {
-    const response: AxiosResponse<unknown> = await axios.post('/Feedback/', data);
+    const response: AxiosResponse<unknown> = await axios.post('http://210.246.215.173:8000/Feedback/', data);
     console.log(response.data);
     return response.data;
   } catch (error) {
