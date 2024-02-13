@@ -4,12 +4,17 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Card from './card';
+// import selectCard from '@/api/selectAllCard';
+
 
 
 const nameCard = [
   "villager",
-
 ];
+
+interface CardProps {
+  title_card: string;
+}
 
 const CardBoard: React.FC = () => {
   const router = useRouter();
