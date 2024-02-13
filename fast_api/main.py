@@ -1,12 +1,9 @@
 import shutil
 from fastapi import FastAPI, HTTPException, Request, File, UploadFile, Form
-
 import mysql.connector
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-
 from fastapi.staticfiles import StaticFiles
-
 
 app = FastAPI()
 
@@ -21,7 +18,6 @@ app.add_middleware(
 )
 
 app.mount("/static", StaticFiles(directory="./uploaded_images"), name="static")
-
 
 class FeedbackData(BaseModel):
     name_report: str
@@ -49,7 +45,6 @@ class CardData(BaseModel):
     count_scan_card: int
     id_boardgame: int
 
-
 def connect_to_mysql():
     try:
         connection = mysql.connector.connect(
@@ -60,26 +55,6 @@ def connect_to_mysql():
         raise HTTPException(
             status_code=500, detail=f"Error connecting to MySQL database: {e}"
         )
-
-
-def insert_report(
-    name_report: str, contact: str, detail_report: str, rating: int, checktypes: str
-):
-    connection = connect_to_mysql()
-    cursor = connection.cursor()
-    try:
-        query = "INSERT INTO Report (name_report, contact, detail_report, rating, checktypes) VALUES (%s, %s, %s, %s, %s)"
-        data = (name_report, contact, detail_report, rating, checktypes)
-        cursor.execute(query, data)
-        connection.commit()
-        return {"message": "Data inserted successfully"}
-    except mysql.connector.Error as e:
-        raise HTTPException(
-            status_code=500, detail=f"Error inserting data into MySQL database: {e}"
-        )
-    finally:
-        cursor.close()
-        connection.close()
 
 
 def get_report_data():
@@ -99,6 +74,41 @@ def get_report_data():
         connection.close()
 
 
+def insert_feedback(
+    name_report: str, contact: str, detail_report: str, rating: int, checktypes: str
+):
+    connection = connect_to_mysql()
+    cursor = connection.cursor()
+    try:
+        query = "INSERT INTO Report (name_report, contact, detail_report, rating, checktypes) VALUES (%s, %s, %s, %s, %s)"
+        data = (name_report, contact, detail_report, rating, checktypes)
+        cursor.execute(query, data)
+        connection.commit()
+
+        return {"message": "Data inserted successfully"}
+    except mysql.connector.Error as e:
+        raise HTTPException(
+            status_code=500, detail=f"Error inserting data into MySQL database: {e}"
+        )
+    finally:
+        cursor.close()
+        connection.close()
+
+@app.post("/insert_feedback/")
+async def insert_feedback(
+    name_report: str = Form(...),
+    contact: str = Form(...),
+    detail_report: str = Form(...),
+    rating: int = Form(...),
+    checktypes: str = Form(...),
+):
+    try:
+        return insert_feedback(name_report, contact, detail_report, rating, checktypes)
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
+
+
 @app.get("/get_all_feedback/")
 async def get_report():
     try:
@@ -113,21 +123,6 @@ async def get_report(id: str):
     try:
         report_data = get_report_data()
         return report_data
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
-
-
-@app.post("/post_feedback/")
-async def insert_feedback(feedback_data: FeedbackData):
-    print(feedback_data)
-    try:
-        name_report = feedback_data.name_report
-        contact = feedback_data.contact
-        detail_report = feedback_data.detail_report
-        rating = feedback_data.rating
-        checktypes = feedback_data.checktypes
-
-        return insert_report(name_report, contact, detail_report, rating, checktypes)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
 
@@ -165,8 +160,7 @@ def insert_card_data(
         cursor.close()
         connection.close()
 
-
-@app.post("/post_card/")
+@app.post("/insert_card/")
 async def post_card(
     title_card: str = Form(...),
     detail_card: str = Form(...),
@@ -187,7 +181,6 @@ async def post_card(
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
-
 
 def insert_boardgame(
     title_game: str,
@@ -225,8 +218,7 @@ def insert_boardgame(
         cursor.close()
         connection.close()
 
-
-@app.post("/post_boardgame/")
+@app.post("/insert_boardgame/")
 async def post_boardgame(
     title_game: str = Form(...),
     detail_game: str = Form(...),
@@ -255,16 +247,6 @@ async def post_boardgame(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
 
-
-@app.get("/get_all_boardgame/")
-async def get_report():
-    try:
-        boardgame_data = get_boardgame_data()
-        return boardgame_data
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
-
-
 def get_boardgame_data():
     connection = connect_to_mysql()
     cursor = connection.cursor(dictionary=True)
@@ -281,15 +263,13 @@ def get_boardgame_data():
         cursor.close()
         connection.close()
 
-
-@app.get("/get_all_card_by_id_boardgame/")
-async def get_card_by_id_boardgame(id_boardgame: int):
+@app.get("/get_all_boardgame/")
+async def get_report():
     try:
-        card_data = get_card_data_by_id_boardgame_data(id_boardgame)
-        return card_data
+        boardgame_data = get_boardgame_data()
+        return boardgame_data
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
-
 
 def get_card_data_by_id_boardgame_data(id_boardgame: int):
     connection = connect_to_mysql()
@@ -305,3 +285,15 @@ def get_card_data_by_id_boardgame_data(id_boardgame: int):
         raise HTTPException(
             status_code=500, detail=f"Error fetching data from MySQL database: {e}"
         )
+    finally:
+        cursor.close()
+        connection.close()
+
+@app.get("/get_all_card_by_id_boardgame/")
+async def get_card_by_id_boardgame(id_boardgame: int):
+    try:
+        card_data = get_card_data_by_id_boardgame_data(id_boardgame)
+        return card_data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
+
