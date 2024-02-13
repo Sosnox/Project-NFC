@@ -20,6 +20,13 @@ class FeedbackData(BaseModel):
     detail_report: str
     rating: int
     checktypes: str
+    
+class CardData(BaseModel):
+    title_card : str
+    detail_card : str
+    path_image_card : str
+    count_scan_card: int
+    id_boardgame: int
 
 def connect_to_mysql():
     try:
@@ -54,6 +61,10 @@ def insert_data(
     finally:
         cursor.close()
         connection.close()
+        
+
+        
+
 
 def get_report_data():
     connection = connect_to_mysql()
@@ -102,3 +113,46 @@ async def insert_feedback(feedback_data: FeedbackData):
         return insert_data(name_report, contact, detail_report, rating, checktypes)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
+
+
+@app.get("/post_card/")
+async def post_card(card_data : CardData):
+    try:
+        title_card = card_data.title_card
+        detail_card = card_data.detail_card
+        path_image_card = card_data.path_image_card
+        count_scan_card = card_data.count_scan_card
+        id_boardgame = card_data.id_boardgame
+        return insert_card_data(title_card, detail_card, path_image_card, count_scan_card , id_boardgame)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
+    
+def insert_card_data(
+    title_card: str, detail_card: str, path_image_card: str, count_scan_card: int , id_boardgame: int
+):
+    connection = connect_to_mysql()
+    cursor = connection.cursor()
+    try:
+        query = "INSERT INTO Card (title_card, detail_card, path_image_card, count_scan_card) VALUES (%s, %s, %s, %s)"
+        data = (title_card, detail_card, path_image_card, count_scan_card)
+        cursor.execute(query, data)
+        connection.commit()
+        
+        id_card = cursor.lastrowid  # รับค่า id ของข้อมูลที่เพิ่มล่าสุด
+        
+        query = "INSERT INTO Conect_Boardgame_Card (id_boardgame, id_card) VALUES (%s, %s)"
+        data = (id_boardgame, id_card)
+        cursor.execute(query, data)
+        connection.commit()
+        
+        return {"message": "Data inserted successfully"}
+    except mysql.connector.Error as e:
+        raise HTTPException(
+            status_code=500, detail=f"Error inserting data into MySQL database: {e}"
+        )
+    finally:
+        cursor.close()
+        connection.close(
+)
+        
+        
