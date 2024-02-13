@@ -28,7 +28,7 @@ const CardBoard: React.FC = () => {
       {nameCard.map((name, index) => (
         <div key={index} onClick={() => viewCard(name)} className="cursor-pointer">
           <Image
-            src={`/imageBoardGame/Card/${name}.svg`}
+            src={`http://210.246.215.173:8000/static/${name}.png`}
             alt={name}
             width={300}
             height={280}
