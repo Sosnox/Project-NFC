@@ -5,6 +5,9 @@ import mysql.connector
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
+from fastapi.staticfiles import StaticFiles
+
+
 app = FastAPI()
 
 origins = ["*"]
@@ -16,6 +19,8 @@ app.add_middleware(
     allow_methods=["*"],  # อนุญาตให้ใช้ทุก HTTP methods
     allow_headers=["*"],  # อนุญาตให้ใช้ทุก headers
 )
+
+app.mount("/static", StaticFiles(directory="./uploaded_images"), name="static")
 
 
 class FeedbackData(BaseModel):
