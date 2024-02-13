@@ -109,7 +109,7 @@ export default function FeedbackPage() {
                 className="max-w-xs"
             />
             <div className='flex w-full justify-end md:justify-center'>
-                <button className='bg-blue-400 text-white p-2 rounded-md mt-7 hover:bg-slate-600' onClick={() => submitData}>Submit</button>
+                <button className='bg-blue-400 text-white p-2 rounded-md mt-7 hover:bg-slate-600' onClick={() => submitData(valueInput)}>Submit</button>
             </div>
         </div>
     );

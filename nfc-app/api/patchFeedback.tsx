@@ -1,4 +1,3 @@
-
 import axios, { AxiosResponse } from 'axios';
 
 interface FeedbackData {
@@ -11,7 +10,12 @@ interface FeedbackData {
 
 const sendDataToFastAPI = async (data: FeedbackData): Promise<unknown> => {
   try {
-    const response: AxiosResponse<unknown> = await axios.post('http://210.246.215.173:8000/Feedback/', data);
+    const response: AxiosResponse<unknown> = await axios.post('http://210.246.215.173:8000/post_feedback', data, {
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -21,4 +25,3 @@ const sendDataToFastAPI = async (data: FeedbackData): Promise<unknown> => {
 };
 
 export default sendDataToFastAPI;
-
