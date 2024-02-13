@@ -22,7 +22,17 @@ class FeedbackData(BaseModel):
     detail_report: str
     rating: int
     checktypes: str
-    
+
+class BoardGameData(BaseModel):
+    title_game: str
+    detail_game: str
+    path_image_boardgame: str
+    player_recommend_start: int
+    player_recommend_end: int
+    age_recommend: int
+    time_playing: int
+    count_scan_boardgame: int
+
 class CardData(BaseModel):
     title_card : str
     detail_card : str
@@ -45,7 +55,7 @@ def connect_to_mysql():
         )
 
 
-def insert_data(
+def insert_report(
     name_report: str, contact: str, detail_report: str, rating: int, checktypes: str
 ):
     connection = connect_to_mysql()
@@ -63,9 +73,6 @@ def insert_data(
     finally:
         cursor.close()
         connection.close()
-        
-
-        
 
 
 def get_report_data():
@@ -84,7 +91,6 @@ def get_report_data():
         cursor.close()
         connection.close()
 
-# Set Path send data
 @app.get("/get_all_feedback/")
 async def get_report():
     try:
@@ -112,17 +118,17 @@ async def insert_feedback(feedback_data: FeedbackData):
         rating = feedback_data.rating
         checktypes = feedback_data.checktypes
 
-        return insert_data(name_report, contact, detail_report, rating, checktypes)
+        return insert_report(name_report, contact, detail_report, rating, checktypes)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
 
 
 @app.post("/post_card/")
 async def post_card(
-    title_card: str = Form(...), 
-    detail_card: str = Form(...), 
-    count_scan_card: int = Form(...), 
-    id_boardgame: int = Form(...), 
+    title_card: str = Form(...),
+    detail_card: str = Form(...),
+    count_scan_card: int = Form(...),
+    id_boardgame: int = Form(...),
     file: UploadFile = File(...)
 ):
     try:
@@ -130,14 +136,14 @@ async def post_card(
         file_location = f"./uploaded_images/{file.filename}"
         with open(file_location, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
-        
+
         # Assuming 'insert_card_data' is adapted to accept a file path for 'path_image_card'
         response = insert_card_data(title_card, detail_card, file_location, count_scan_card, id_boardgame)
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
 
-    
+
 def insert_card_data(
     title_card: str, detail_card: str, path_image_card: str, count_scan_card: int , id_boardgame: int
 ):
@@ -148,14 +154,14 @@ def insert_card_data(
         data = (title_card, detail_card, path_image_card, count_scan_card)
         cursor.execute(query, data)
         connection.commit()
-        
+
         id_card = cursor.lastrowid  # รับค่า id ของข้อมูลที่เพิ่มล่าสุด
-        
+
         query = "INSERT INTO Conect_Boardgame_Card (id_boardgame, id_card) VALUES (%s, %s)"
         data = (id_boardgame, id_card)
         cursor.execute(query, data)
         connection.commit()
-        
+
         return {"message": "Data inserted successfully"}
     except mysql.connector.Error as e:
         raise HTTPException(
@@ -165,5 +171,40 @@ def insert_card_data(
         cursor.close()
         connection.close(
 )
-        
-        
+
+
+def insert_boardgame(
+    title_game: str, detail_game: str, path_image_boardgame: str, player_recommend_start: int, player_recommend_end: int, age_recommend: int, time_playing: int, count_scan_boardgame: int
+):
+    connection = connect_to_mysql()
+    cursor = connection.cursor()
+    try:
+        query = "INSERT INTO BoardGame (title_game , detail_game , path_image_boardgame , player_recommend_start , player_recommend_end , age_recommend , time_playing , count_scan_boardgame) VALUES (%s, %s, %s, %s, %s , %s , %s , %s)"
+        data = (title_game, detail_game, path_image_boardgame, player_recommend_start, player_recommend_end, age_recommend, time_playing, count_scan_boardgame)
+        cursor.execute(query, data)
+        connection.commit()
+        return {"message": "Data inserted successfully"}
+    except mysql.connector.Error as e:
+        raise HTTPException(
+            status_code=500, detail=f"Error inserting data into MySQL database: {e}"
+        )
+    finally:
+        cursor.close()
+        connection.close()
+
+@app.post("/post_boardgame/")
+async def insert_boardgame(boardgame_data: BoardGameData):
+    print(boardgame_data)
+    try:
+        title_game = boardgame_data.title_game
+        detail_game = boardgame_data.detail_game
+        path_image_boardgame = boardgame_data.path_image_boardgame
+        player_recommend_start = boardgame_data.player_recommend_start
+        player_recommend_end = boardgame_data.player_recommend_end
+        age_recommend = boardgame_data.age_recommend
+        time_playing = boardgame_data.time_playing
+        count_scan_boardgame = boardgame_data.count_scan_boardgame
+
+        return insert_boardgame(title_game, detail_game, path_image_boardgame, player_recommend_start,player_recommend_end,age_recommend,time_playing,count_scan_boardgame)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
