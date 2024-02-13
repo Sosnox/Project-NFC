@@ -9,7 +9,7 @@ import ShowCardPage from '@/pages/ShowCardPage';
 function AddGameTopic() {
     
     const images = [
-        logo, logo, wherewolf, logo, logo
+        logo, logo, logo, logo , wherewolf, logo, logo, logo, logo,
     ];
 
     return (

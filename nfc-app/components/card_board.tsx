@@ -7,17 +7,8 @@ import Card from './card';
 
 
 const nameCard = [
-  'werewolf',
-  'hunter',
-  'seer',
-  'villager',
-  'bodyguard',
-  'werewolf',
-  'werewolf',
-  'werewolf',
-  'werewolf',
-  'werewolf',
-  'werewolf',
+  "villager",
+
 ];
 
 const CardBoard: React.FC = () => {

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link'
+import BoxDetail from './box_detail';
 
 import { MdKeyboardArrowRight } from "react-icons/md";
 
@@ -10,7 +11,7 @@ import logo from '../public/tobecon.png';
 
 function AddGameCard (){ 
     const images = [
-        wherewolf,
+        wherewolf, 
     ];
 
     return (
@@ -33,9 +34,12 @@ function BoardGameImage ({ imageURL }: { imageURL: any}){
         <div>
             <div className='flex shrink-0'>
                 <Image src={ imageURL } alt={ imageURL }/>
-                <div className='flex items-center pl-20'>
-                    <span className="text-boardgame font-bold ">Where Wolf</span>
-                    <MdKeyboardArrowRight className="transform translate-x-[30px]" size={50}/>
+                <div className='pl-20'>
+                    <BoxDetail></BoxDetail>
+                    <div>
+                        <MdKeyboardArrowRight className="absolute right-[50px] tramfrom translate-y-[30px]" size={50}/>  
+                    </div>
+
 
                 </div>
             </div>
