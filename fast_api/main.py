@@ -290,7 +290,6 @@ async def get_card_by_id_boardgame(id_boardgame: int):
 def get_card_data_by_id_boardgame_data(id_boardgame: int):
     connection = connect_to_mysql()
     cursor = connection.cursor(dictionary=True)
-
     try:
         query = "SELECT Card.id_card, Card.title_card, Card.detail_card, Card.path_image_card, Card.count_scan_card FROM Card INNER JOIN Connect_BoardGame_Card ON Card.id_card = Connect_BoardGame_Card.id_card WHERE Connect_BoardGame_Card.id_boardgame = %s"
         data = (id_boardgame,)
