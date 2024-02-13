@@ -1,4 +1,6 @@
-from fastapi import FastAPI, HTTPException, Request
+import shutil
+from fastapi import FastAPI, HTTPException, Request,File, UploadFile, Form
+
 import mysql.connector
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -115,17 +117,26 @@ async def insert_feedback(feedback_data: FeedbackData):
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
 
 
-@app.get("/post_card/")
-async def post_card(card_data : CardData):
+@app.post("/post_card/")
+async def post_card(
+    title_card: str = Form(...), 
+    detail_card: str = Form(...), 
+    count_scan_card: int = Form(...), 
+    id_boardgame: int = Form(...), 
+    file: UploadFile = File(...)
+):
     try:
-        title_card = card_data.title_card
-        detail_card = card_data.detail_card
-        path_image_card = card_data.path_image_card
-        count_scan_card = card_data.count_scan_card
-        id_boardgame = card_data.id_boardgame
-        return insert_card_data(title_card, detail_card, path_image_card, count_scan_card , id_boardgame)
+        # Save uploaded file to a directory
+        file_location = f"./uploaded_images/{file.filename}"
+        with open(file_location, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+        
+        # Assuming 'insert_card_data' is adapted to accept a file path for 'path_image_card'
+        response = insert_card_data(title_card, detail_card, file_location, count_scan_card, id_boardgame)
+        return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
+
     
 def insert_card_data(
     title_card: str, detail_card: str, path_image_card: str, count_scan_card: int , id_boardgame: int
