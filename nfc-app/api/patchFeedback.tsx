@@ -1,3 +1,4 @@
+
 import axios, { AxiosResponse } from 'axios';
 
 interface FeedbackData {
@@ -10,7 +11,7 @@ interface FeedbackData {
 
 const sendDataToFastAPI = async (data: FeedbackData): Promise<unknown> => {
   try {
-    const response: AxiosResponse<unknown> = await axios.post('/api/feedback', data);
+    const response: AxiosResponse<unknown> = await axios.post('/Feedback/', data);
     console.log(response.data);
     return response.data;
   } catch (error) {
@@ -20,3 +21,4 @@ const sendDataToFastAPI = async (data: FeedbackData): Promise<unknown> => {
 };
 
 export default sendDataToFastAPI;
+
