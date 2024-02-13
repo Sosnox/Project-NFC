@@ -1,36 +1,22 @@
-// import { useState, useEffect } from 'react';
-// import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
-// const MyComponent = () => {
-//   const [data, setData] = useState(null);
+interface FeedbackData {
+  name_report: string;
+  contact: string;
+  detail_report: string;
+  rating: number;
+  checktypes: string;
+}
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const response = await axios.get('http://localhost:8000/Cards/');
-//         setData(response.data);
-//       } catch (error) {
-//         console.error('Error fetching data:', error);
-//       }
-//     };
+const sendDataToFastAPI = async (data: FeedbackData): Promise<unknown> => {
+  try {
+    const response: AxiosResponse<unknown> = await axios.post('/api/feedback', data);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
 
-//     fetchData();
-//   }, []);
-
-//   return (
-//     <div>
-//       <h1>My Component</h1>
-//       {data ? (
-//         <ul>
-//           {data?.map((item) => (
-//             <li key={item.id}>{item.title_card}</li>
-//           ))}
-//         </ul>
-//       ) : (
-//         <p>Loading...</p>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default MyComponent;
+export default sendDataToFastAPI;
