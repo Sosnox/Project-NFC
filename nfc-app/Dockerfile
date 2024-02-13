@@ -1,20 +1,20 @@
-# Use official Node.js LTS (Long Term Support) image as base
+# Dockerfile in lifebrary directory
 FROM node:latest
 
-# Set working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
-COPY package*.json ./
+# Copy package.json and package-lock.json
+COPY package.json package-lock.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
+# Copy local code to the container
 COPY . .
 
-# Expose the port Next.js app runs on
+# Expose port 3000
 EXPOSE 3000
 
-# Command to run the Next.js app
+# Start the application
 CMD ["yarn", "start"]

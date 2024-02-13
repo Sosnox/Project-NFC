@@ -24,13 +24,15 @@ services:
       - '8000:8000'
     restart: always
 
-  nfc_app:
+  react_app:
     build: ./nfc-app
     volumes:
       - ./nfc-app:/app
+      - /app/node_modules
     ports:
       - '3000:3000'
     command: sh -c "yarn install && yarn start"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
     depends_on:
       - fast_api
-    restart: always
