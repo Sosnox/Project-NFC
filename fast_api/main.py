@@ -132,27 +132,6 @@ async def insert_feedback(feedback_data: FeedbackData):
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
 
 
-@app.post("/post_card/")
-async def post_card(
-    title_card: str = Form(...),
-    detail_card: str = Form(...),
-    count_scan_card: int = Form(...),
-    id_boardgame: int = Form(...),
-    file: UploadFile = File(...),
-):
-    try:
-        # Save uploaded file to a directory
-        file_location = f"./uploaded_images/{file.filename}"
-        with open(file_location, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-
-        # Assuming 'insert_card_data' is adapted to accept a file path for 'path_image_card'
-        response = insert_card_data(
-            title_card, detail_card, file_location, count_scan_card, id_boardgame
-        )
-        return response
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
 
 
 def insert_card_data(
@@ -187,6 +166,28 @@ def insert_card_data(
     finally:
         cursor.close()
         connection.close()
+
+@app.post("/post_card/")
+async def post_card(
+    title_card: str = Form(...),
+    detail_card: str = Form(...),
+    count_scan_card: int = Form(...),
+    id_boardgame: int = Form(...),
+    file: UploadFile = File(...),
+):
+    try:
+        # Save uploaded file to a directory
+        file_location = f"./uploaded_images/{file.filename}"
+        with open(file_location, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+
+        # Assuming 'insert_card_data' is adapted to accept a file path for 'path_image_card'
+        response = insert_card_data(
+            title_card, detail_card, file_location, count_scan_card, id_boardgame
+        )
+        return response
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
 
 
 def insert_boardgame(
@@ -226,26 +227,24 @@ def insert_boardgame(
 
 
 @app.post("/post_boardgame/")
-async def post_boardgame(boardgame_data: BoardGameData):
+async def post_boardgame(
+    title_game: str = Form(...),
+    detail_game: str = Form(...),
+    file : UploadFile = Form(...),
+    player_recommend_start: int = Form(...),
+    player_recommend_end: int = Form(...),
+    age_recommend: int = Form(...),
+    time_playing: int = Form(...),
+    count_scan_boardgame: int = Form(...),
+    ):
+
     try:
-        title_game = boardgame_data.title_game
-        detail_game = boardgame_data.detail_game
-        path_image_boardgame = boardgame_data.path_image_boardgame
-        player_recommend_start = boardgame_data.player_recommend_start
-        player_recommend_end = boardgame_data.player_recommend_end
-        age_recommend = boardgame_data.age_recommend
-        time_playing = boardgame_data.time_playing
-        count_scan_boardgame = boardgame_data.count_scan_boardgame
+        file_location_boardgame = f"./uploaded_images/{file.filename}"
+        with open(file_location_boardgame, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
 
         return insert_boardgame(
-            title_game,
-            detail_game,
-            path_image_boardgame,
-            player_recommend_start,
-            player_recommend_end,
-            age_recommend,
-            time_playing,
-            count_scan_boardgame,
+            title_game , detail_game , file_location_boardgame , player_recommend_start , player_recommend_end , age_recommend , time_playing , count_scan_boardgame
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
