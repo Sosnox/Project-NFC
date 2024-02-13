@@ -30,6 +30,6 @@ def insert_data(name_report: str, contact: str, detail_report: str, rating: int,
         cursor.close()
         connection.close()
 
-@app.post("/insert-data/")
+@app.post("/Feedback/")
 async def insert_feedback(name_report: str, contact: str, detail_report: str, rating: int, checktypes: str):
     return insert_data(name_report, contact, detail_report, rating, checktypes)
