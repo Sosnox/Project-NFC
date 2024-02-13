@@ -132,8 +132,6 @@ async def insert_feedback(feedback_data: FeedbackData):
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
 
 
-
-
 def insert_card_data(
     title_card: str,
     detail_card: str,
@@ -166,6 +164,7 @@ def insert_card_data(
     finally:
         cursor.close()
         connection.close()
+
 
 @app.post("/post_card/")
 async def post_card(
@@ -203,7 +202,7 @@ def insert_boardgame(
     connection = connect_to_mysql()
     cursor = connection.cursor()
     try:
-        query = "INSERT INTO BoardGame (title_game , detail_game , path_image_boardgame , player_recommend_start , player_recommend_end , age_recommend , time_playing , count_scan_boardgame) VALUES (%s, %s, %s, %s, %s , %s , %s , %s)"
+        query = "INSERT INTO BoardGame (title_game, detail_game, path_image_boardgame, player_recommend_start, player_recommend_end, age_recommend, time_playing, count_scan_boardgame) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
         data = (
             title_game,
             detail_game,
@@ -217,7 +216,8 @@ def insert_boardgame(
         cursor.execute(query, data)
         connection.commit()
         return {"message": "Data inserted successfully"}
-    except mysql.connector.Error as e:
+    except Exception as e:
+        connection.rollback()
         raise HTTPException(
             status_code=500, detail=f"Error inserting data into MySQL database: {e}"
         )
@@ -230,21 +230,27 @@ def insert_boardgame(
 async def post_boardgame(
     title_game: str = Form(...),
     detail_game: str = Form(...),
-    file : UploadFile = Form(...),
+    file: UploadFile = File(...),
     player_recommend_start: int = Form(...),
     player_recommend_end: int = Form(...),
     age_recommend: int = Form(...),
     time_playing: int = Form(...),
     count_scan_boardgame: int = Form(...),
-    ):
-
+):
     try:
         file_location_boardgame = f"./uploaded_images/{file.filename}"
         with open(file_location_boardgame, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
         return insert_boardgame(
-            title_game , detail_game , file_location_boardgame , player_recommend_start , player_recommend_end , age_recommend , time_playing , count_scan_boardgame
+            title_game,
+            detail_game,
+            file_location_boardgame,
+            player_recommend_start,
+            player_recommend_end,
+            age_recommend,
+            time_playing,
+            count_scan_boardgame,
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
