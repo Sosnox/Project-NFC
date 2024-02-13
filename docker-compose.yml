@@ -26,6 +26,11 @@ services:
 
   nfc_app:
     build: ./nfc-app
+    volumes:
+      - ./nfc-app:/app
     ports:
       - '3000:3000'
+    command: sh -c "yarn install && yarn start"
+    depends_on:
+      - fast_api
     restart: always
