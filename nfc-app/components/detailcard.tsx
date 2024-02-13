@@ -18,7 +18,7 @@ const detailCard: DetailCardData = {
 
 export default function DetailCard({ name }: DetailCardProps) {
   return (
-    <div className='flex flex-col text-lg items-center'>
+    <div className='flex flex-col text-lg items-center '>
       <label className='text-[20px] font-bold my-5 underline'>Detail Card</label>
       <div className='text-base '>
         {detailCard[name]}
