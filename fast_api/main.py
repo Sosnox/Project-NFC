@@ -143,7 +143,6 @@ async def post_card(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
 
-
 def insert_card_data(
     title_card: str, detail_card: str, path_image_card: str, count_scan_card: int , id_boardgame: int
 ):
@@ -157,7 +156,7 @@ def insert_card_data(
 
         id_card = cursor.lastrowid  # รับค่า id ของข้อมูลที่เพิ่มล่าสุด
 
-        query = "INSERT INTO Conect_Boardgame_Card (id_boardgame, id_card) VALUES (%s, %s)"
+        query = "INSERT INTO Connect_BoardGame_Card (id_boardgame, id_card) VALUES (%s, %s)"
         data = (id_boardgame, id_card)
         cursor.execute(query, data)
         connection.commit()
@@ -193,8 +192,7 @@ def insert_boardgame(
         connection.close()
 
 @app.post("/post_boardgame/")
-async def insert_boardgame(boardgame_data: BoardGameData):
-    print(boardgame_data)
+async def post_boardgame(boardgame_data: BoardGameData):
     try:
         title_game = boardgame_data.title_game
         detail_game = boardgame_data.detail_game
@@ -205,6 +203,30 @@ async def insert_boardgame(boardgame_data: BoardGameData):
         time_playing = boardgame_data.time_playing
         count_scan_boardgame = boardgame_data.count_scan_boardgame
 
-        return insert_boardgame(title_game, detail_game, path_image_boardgame, player_recommend_start,player_recommend_end,age_recommend,time_playing,count_scan_boardgame)
+        return insert_boardgame(title_game, detail_game, path_image_boardgame, player_recommend_start, player_recommend_end, age_recommend, time_playing, count_scan_boardgame)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
+
+@app.get("/get_all_boardgame/")
+async def get_report():
+    try:
+        boardgame_data = get_boardgame_data()
+        return boardgame_data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
+    
+def get_boardgame_data():
+    connection = connect_to_mysql()
+    cursor = connection.cursor(dictionary=True)
+    try:
+        query = "SELECT * FROM BoardGame"
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
+    except mysql.connector.Error as e:
+        raise HTTPException(
+            status_code=500, detail=f"Error fetching data from MySQL database: {e}"
+        )
+    finally:
+        cursor.close()
+        connection.close()
