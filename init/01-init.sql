@@ -28,8 +28,11 @@ CREATE TABLE IF NOT EXISTS Report (
     count_scan_card INT,
     count_scan_boardgame INT,
     date_report DATETIME DEFAULT CURRENT_TIMESTAMP,
-    checkType VARCHAR(10),
-    detail_report TEXT
+    checktypes VARCHAR(15),
+    detail_report TEXT,
+    rating INT,
+    name_report VARCHAR(255),
+    contact VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS Connect_BoardGame_Card (

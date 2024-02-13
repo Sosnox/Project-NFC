@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Input } from "@nextui-org/react";
+import { Input, Select, SelectItem } from "@nextui-org/react";
 import FiveStar from '@/components/fivestar';
 
 export default function FeedbackPage() {
 
     type InputValue = {
-        name: string;
+        name_report: string;
         contact: string;
-        comment: string;
+        detail_report: string;
         rating: number;
+        checktypes: string;
     }
 
-    const [valueInput , setValueInput] = useState<InputValue>({
-        name: '',
+    const checkType = ["Card", "BoardGame"]
+
+    const [valueInput, setValueInput] = useState<InputValue>({
+        name_report: '',
         contact: '',
-        comment: '',
-        rating: 0
+        detail_report: '',
+        rating: 0,
+        checktypes: ''
     })
-    
+
     const submitData = () => {
         // valueInput ////////////////////////////////////////////////////////////////////
     }
@@ -32,20 +36,20 @@ export default function FeedbackPage() {
                     type="text"
                     label="Name"
                     variant="bordered"
-                    placeholder='Name Surname'
+                    placeholder='Name'
                     onChange={(e) => {
                         setValueInput(prevState => ({
                             ...prevState,
-                            name: e.target.value,
+                            name_report: e.target.value,
                         }));
                     }}
                     className="max-w-xs"
                 />
                 <Input
-                    type="text"
+                    type="email"
                     label="Contact"
                     variant="bordered"
-                    placeholder='junior@nextui.org'
+                    placeholder='juzi@nextui.org'
                     onChange={(e) => {
                         setValueInput(prevState => ({
                             ...prevState,
@@ -55,10 +59,28 @@ export default function FeedbackPage() {
                     className="max-w-xs"
                 />
             </div>
-
+            <Select
+                required
+                label="Choose Type"
+                placeholder="Card / BoardGame"
+                color="default"
+                className="max-w-xs pb-5"
+                onChange={(e) => {
+                    setValueInput(prevState => ({
+                        ...prevState,
+                        checktypes: e.target.value,
+                    }));
+                }}
+            >
+                {checkType.map((type: string) => (
+                    <SelectItem key={type} value={type}>
+                        {type}
+                    </SelectItem>
+                ))}
+            </Select>
             <div className='flex flex-col w-full pb-4 sm:items-center items-start'>
                 <div>Share</div>
-                <FiveStar rating={(rating : number) => {
+                <FiveStar rating={(rating: number) => {
                     setValueInput(prevState => ({
                         ...prevState,
                         rating: rating,
@@ -72,14 +94,14 @@ export default function FeedbackPage() {
                 onChange={(e) => {
                     setValueInput(prevState => ({
                         ...prevState,
-                        comment: e.target.value,
+                        detail_report: e.target.value,
                     }));
                 }}
                 placeholder='Add your comments...'
                 className="max-w-xs"
             />
             <div className='flex w-full justify-end md:justify-center'>
-            <button className='bg-blue-500 text-white p-2 rounded-md mt-5 hover:bg-slate-600' onClick={submitData}>Submit</button>
+                <button className='bg-blue-400 text-white p-2 rounded-md mt-7 hover:bg-slate-600' onClick={submitData}>Submit</button>
             </div>
         </div>
     );

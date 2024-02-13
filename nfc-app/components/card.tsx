@@ -11,9 +11,9 @@ export default function CardGamePage( {name} : nameCardProps) {
     window.history.back();
   }
   return (
-    <div className="flex flex-col items-center"> 
+    <div className="flex flex-col items-center mx-14"> 
 
-      <div className='absolute left-5 back-button'>
+      <div className='absolute left-5 back-button'> 
                 <button onClick={goBack}> <MdOutlineArrowBackIos className="text-left" size={40}/> </button>
             </div>
       <button onClick={goBack}>
