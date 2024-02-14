@@ -18,7 +18,7 @@ export default function ShowCardPage() {
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                const data = await selectAllCards(3);
+                const data = await selectAllCards(1);
                 setCards(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -29,7 +29,7 @@ export default function ShowCardPage() {
     }, []);
 
     console.log(cards)
-    
+
     return (
         <div className="flex flex-col items-center justify-center mx-10">
             <label className='text-2xl font-bold mt-10 mb-10 underline'>BoardGame : WareWolf</label>
