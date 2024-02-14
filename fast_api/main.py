@@ -166,19 +166,19 @@ def insert_card_data(
 async def post_card(
     title_card: str = Form(...),
     detail_card: str = Form(...),
-    count_scan_card: int = Form(...),
-    id_boardgame: int = Form(...),
-    file: UploadFile = File(...),
+    # count_scan_card: int = Form(...),
+    # id_boardgame: int = Form(...),
+    # file: UploadFile = File(...),
 ):
     try:
         # Save uploaded file to a directory
-        file_location = f"./uploaded_images/{file.filename}"
-        with open(file_location, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
+        file_location = f"./uploaded_images/{title_card}.png" #file_location = f"./uploaded_images/{file.filename}"
+        # with open(file_location, "wb") as buffer:
+        #     shutil.copyfileobj(file.file, buffer)
 
         # Assuming 'insert_card_data' is adapted to accept a file path for 'path_image_card'
         response = insert_card_data(
-            title_card, detail_card, file_location, count_scan_card, id_boardgame
+            title_card, detail_card, file_location, 0, 3 #title_card, detail_card, file_location, count_scan_card, id_boardgame
         )
         return response
     except Exception as e:

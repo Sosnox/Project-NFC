@@ -7,16 +7,17 @@ import Card from './card';
 // import selectCard from '@/api/selectAllCard';
 
 
-
-const nameCard = [
-  "villager",
-];
-
 interface CardProps {
-  title_card: string;
+  card: {
+    id_card: number,
+    title_card: string,
+    detail_card: string,
+    path_image_card: string,
+    count_scan_card: number,
+  }
 }
 
-const CardBoard: React.FC = () => {
+const CardBoard: React.FC<CardProps> = ({ card }) => {
   const router = useRouter();
 
   const viewCard = (name: string) => {
@@ -24,17 +25,15 @@ const CardBoard: React.FC = () => {
   };
 
   return (
-    <div className='grid h-full grid-cols-3 gap-4 pt-12'>
-      {nameCard.map((name, index) => (
-        <div key={index} onClick={() => viewCard(name)} className="cursor-pointer">
+    <div className='h-full'>
+        <div onClick={() => viewCard(card.title_card)} className="cursor-pointer">
           <Image
-            src={`http://210.246.215.173:8000/static/${name}.png`}
-            alt={name}
+            src={`http://210.246.215.173:8000/static/${card.title_card}.png`}
+            alt={card.title_card}
             width={300}
             height={280}
           />
         </div>
-      ))}
     </div>
   );
 };

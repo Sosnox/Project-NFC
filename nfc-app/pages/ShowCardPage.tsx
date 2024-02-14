@@ -18,7 +18,7 @@ export default function ShowCardPage() {
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                const data = await selectAllCards(2);
+                const data = await selectAllCards(3);
                 setCards(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -27,6 +27,8 @@ export default function ShowCardPage() {
 
         fetchCards();
     }, []);
+
+    console.log(cards)
     
     return (
         <div className="flex flex-col items-center justify-center mx-10">
@@ -35,12 +37,14 @@ export default function ShowCardPage() {
                 <Image src="/imageBoardGame/Werewolf.svg" alt="Werewolf" width={300} height={400} />
             </Link>
             <h1 className="mt-10 font-bold text-[20px]">การ์ดเกม WereWolf</h1>
-            <div className="mb-24">
+
+            <div className="mb-24 mt-4 grid grid-cols-3 gap-4">
                 {/* Render cards here */}
                 {cards.map(card => (
-                    <CardBoard />
+                    <CardBoard key={card.id_card} card={card}/>
                 ))}
             </div>
+
         </div>
     );
 }
