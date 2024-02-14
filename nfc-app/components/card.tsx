@@ -18,7 +18,7 @@ export default function CardGamePage( {name} : nameCardProps) {
       <button onClick={goBack}>
         <label className='flex justify-between gap-5 text-2xl font-bold pb-5 text-black-10 w-f'> Card : {name}  </label>
       </button>   
-      <Image src={`http://210.246.215.173:8000/static/${name}.png`} alt={`${name}`} width={300} height={280} />
+      <Image src={`/img_re/${name}.png`} alt={`${name}`} width={300} height={280} />
     </div>
   );  
 }
