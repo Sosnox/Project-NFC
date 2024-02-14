@@ -13,11 +13,7 @@ export default function BoardGamePage() {
         <input placeholder='Search' className='p-2 w-3/4 search-bar text-center text-lg transform translate-x-[10px]'></input>
         <FaSearch size={20} className='transform translate-x-[-40px]' />
       </div>
-
-
       <AddGameCard></AddGameCard>
-
-
     </div>
   );
 }

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import FiveStar from '@/components/fivestar';
+import sendDataToFastAPI from '@/api/insertFeedback';
+
 
 export default function FeedbackPage() {
 
@@ -23,8 +25,14 @@ export default function FeedbackPage() {
         checktypes: ''
     })
 
-    const submitData = () => {
-        // valueInput ////////////////////////////////////////////////////////////////////
+    const submitData = async (valueInput : InputValue) => {
+        console.log("Clicked")
+        try {
+            await sendDataToFastAPI(valueInput);
+            console.log("success")
+          } catch (error) {
+            console.log("error", error)
+          }
     }
     console.log(valueInput)
 
@@ -101,7 +109,7 @@ export default function FeedbackPage() {
                 className="max-w-xs"
             />
             <div className='flex w-full justify-end md:justify-center'>
-                <button className='bg-blue-400 text-white p-2 rounded-md mt-7 hover:bg-slate-600' onClick={submitData}>Submit</button>
+                <button className='bg-blue-400 text-white p-2 rounded-md mt-7 hover:bg-slate-600' onClick={() => submitData(valueInput)}>Submit</button>
             </div>
         </div>
     );
