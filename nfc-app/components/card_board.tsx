@@ -67,6 +67,8 @@ const CardBoard: React.FC<CardProps> = ({ card }) => {
   const viewCard = (name: string) => {
     router.push(`/Card/?name=${name}`);
   };
+  
+  console.log(card.title_card)
 
   return (
     <div className='h-full'>
@@ -77,7 +79,6 @@ const CardBoard: React.FC<CardProps> = ({ card }) => {
             width={300}
             height={280}
             />
-          )
         </div>
     </div>
   );
