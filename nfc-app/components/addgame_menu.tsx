@@ -9,17 +9,15 @@ import avaron from '../public/imageBoardGame/avalon.webp';
 import logo from '../public/tobecon.png';
 
 
-function AddGameCard (){ 
+function AddGameCard (){
     const images = [
-        wherewolf, 
+        wherewolf,
     ];
 
     return (
         <div className='grid gap-6 pb-24'>
             {
                 images.map((image, index) => (
-
-                    
                     <div className='rounded-3xl p-2 game-menu mx-10' >
                         <Link href={'./ShowCardPage'}> <BoardGameImage key={index} imageURL={image} /> </Link> 
                     </div>
@@ -29,7 +27,7 @@ function AddGameCard (){
     );
 }
 
-function BoardGameImage ({ imageURL }: { imageURL: any}){ 
+function BoardGameImage ({ imageURL }: { imageURL: any}){
     return (
         <div>
             <div className='flex shrink-0'>
@@ -37,15 +35,12 @@ function BoardGameImage ({ imageURL }: { imageURL: any}){
                 <div className='pl-20'>
                     <BoxDetail></BoxDetail>
                     <div>
-                        <MdKeyboardArrowRight className="absolute right-[50px] tramfrom translate-y-[30px]" size={50}/>  
+                        <MdKeyboardArrowRight className="absolute right-[50px] tramfrom translate-y-[30px]" size={50}/>
                     </div>
-
-
                 </div>
             </div>
-            
         </div>
-        
+
     );
 }
 
