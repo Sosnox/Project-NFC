@@ -47,7 +47,7 @@ const nameCard = [
   "alphawolf",
   "spellcaster"
 
-
+];
 
 
 interface CardProps {
@@ -71,17 +71,15 @@ const CardBoard: React.FC<CardProps> = ({ card }) => {
   return (
     <div className='h-full'>
         <div onClick={() => viewCard(card.title_card)} className="cursor-pointer">
+
           <Image
 
-            src={`/img_re/${name}.png`}
-            alt={name}
-
-<!--             src={`http://210.246.215.173:8000/static/${card.title_card}.png`}
-            alt={card.title_card} -->
-
-            width={300}
-            height={280}
+          src={`http://210.246.215.173:8000/static/${card.title_card}.png`}
+          alt={card.title_card} 
+          width={300}
+          height={280}
           />
+          
         </div>
     </div>
   );

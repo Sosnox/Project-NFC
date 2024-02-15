@@ -4,12 +4,13 @@ import CardBoard from "@/components/card_board";
 import Image from 'next/image';
 import Link from 'next/link';
 
+
 interface Card {
     id_card: number,
     title_card: string,
     detail_card: string,
     path_image_card: string,
-    count_scan_card: number,
+    count_scan_card: number ,
 }
 
 export default function ShowCardPage() {
