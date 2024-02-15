@@ -74,8 +74,6 @@ export default function CardBoard( { name}: { name: string} ) {
     router.push(`/Card/?name=${name}`);
   };
 
-
-export default CardBoard;
   // console.log(card.title_card)
 
 //   return (
@@ -94,7 +92,7 @@ export default CardBoard;
 
 return (
   <div className='h-full'>
-      <div onClick={() => viewCard(name)} className="cursor-pointer"> {/* Added unique key for each item */}
+      <div onClick={() => viewCard(name)} className="cursor-pointer"> 
         <Image
           src={`/img_re/${name}.png`}
           alt={name}
