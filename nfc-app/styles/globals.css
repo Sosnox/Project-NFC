@@ -42,7 +42,7 @@
   width: 100%;
 }
 
-.icon:hover {
+.icon:active {
   color: rgb(168, 162, 162);
 }
 
@@ -92,11 +92,40 @@
 }
 
 
+.icon-nav {
+  color: white;
+}
+
+.icon-nav:active{
+  color: gray; /* เปลี่ยนสีข้อความเป็นสีแดงเมื่อมีการคลิกหรือโฟกัส */
+}
 
 
+.noti-show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -25px;
 
+}
 
+.noti-show img{
 
+  border: 2px solid black;
+  border-radius: 11px;
+}
+
+.square {
+  position: absolute;
+  background-color:white;
+  width: 30px;
+  height: 30px;
+  transform: rotate(45deg);
+  right: 40px;
+  top:55px;
+  border-left: 2px solid black;
+  border-top: 2px solid black;
+}
 
 
 

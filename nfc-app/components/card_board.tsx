@@ -46,7 +46,8 @@ const nameCard = [
   "mystic",
   "alphawolf",
   "spellcaster"
-]
+];
+
 
 
 interface CardProps {
@@ -73,6 +74,8 @@ export default function CardBoard( { name}: { name: string} ) {
     router.push(`/Card/?name=${name}`);
   };
 
+
+export default CardBoard;
   // console.log(card.title_card)
 
 //   return (
@@ -102,3 +105,4 @@ return (
   </div>
 );
 }
+
