@@ -178,7 +178,7 @@ async def post_card(
 
         # Assuming 'insert_card_data' is adapted to accept a file path for 'path_image_card'
         response = insert_card_data(
-            title_card, detail_card, file_location, 0, 3 #title_card, detail_card, file_location, count_scan_card, id_boardgame
+            title_card, detail_card, file_location, 0, 1 #title_card, detail_card, file_location, count_scan_card, id_boardgame
         )
         return response
     except Exception as e:

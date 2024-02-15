@@ -13,23 +13,70 @@ interface Card {
     count_scan_card: number ,
 }
 
+type value = {
+    name: string;
+    index: number;
+    nameCard: string;
+}
+
+const nameCard = [
+    "villager",
+    "werewolf",
+    "seer",
+    "cupid",
+    "bodyguard",
+    "auraseer",
+    "drunk",
+    "prince",
+    "priest",
+    "pi",
+    "troublemaker",
+    "witch",
+    "oldhag",
+    "apprenticeseer",
+    "mayor",
+    "hunter",
+    "diseased",
+    "pacifist",
+    "ghost",
+    "mason",
+    "doppelganger",
+    "lycan",
+    "toughguy",
+    "idiot",
+    "wolfcup",
+    "minion",
+    "sorcerer",
+    "hoodlum",
+    "cursed",
+    "tanner",
+    "vampire",
+    "cultleader",
+    "revealer",
+    "mentalist",
+    "huntress",
+    "mystic",
+    "alphawolf",
+    "spellcaster"
+  ]
+
 export default function ShowCardPage() {
     const [cards, setCards] = useState<Card[]>([]);
 
-    useEffect(() => {
-        const fetchCards = async () => {
-            try {
-                const data = await selectAllCards(1);
-                setCards(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchCards = async () => {
+    //         try {
+    //             const data = await selectAllCards(1);
+    //             setCards(data);
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error);
+    //         }
+    //     };
 
-        fetchCards();
-    }, []);
+    //     fetchCards();
+    // }, []);
 
-    console.log(cards)
+    // console.log(cards)
 
     return (
         <div className="flex flex-col items-center justify-center mx-10">
@@ -38,14 +85,11 @@ export default function ShowCardPage() {
                 <Image src="/imageBoardGame/Werewolf.svg" alt="Werewolf" width={300} height={400} />
             </Link>
             <h1 className="mt-10 font-bold text-[20px]">การ์ดเกม WereWolf</h1>
-
             <div className="mb-24 mt-4 grid grid-cols-3 gap-4">
-                {/* Render cards here */}
-                {cards.map(card => (
-                    <CardBoard key={card.id_card} card={card}/>
+                {nameCard.map((card) => (
+                    <CardBoard name={card} />
                 ))}
             </div>
-
         </div>
     );
 }
