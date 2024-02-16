@@ -34,3 +34,14 @@ services:
     expose:
       - 3000
     restart: always
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysqldb
+      PMA_USER: xenon
+      PMA_PASSWORD: xenon
+      PMA_ARBITRARY: 1
+    ports:
+      - "8080:80"
+    restart: always
