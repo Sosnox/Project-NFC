@@ -4,10 +4,10 @@ services:
   mysqldb:
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: l3lazker
       MYSQL_DATABASE: db-nfc-game
       MYSQL_USER: xenon
-      MYSQL_PASSWORD: xenon
+      MYSQL_PASSWORD: l3lazker
     ports:
       - "3306:3306"
     volumes:
@@ -40,7 +40,7 @@ services:
     environment:
       PMA_HOST: mysqldb
       PMA_USER: xenon
-      PMA_PASSWORD: xenon
+      PMA_PASSWORD: l3lazker
       PMA_ARBITRARY: 1
     ports:
       - "8080:80"
