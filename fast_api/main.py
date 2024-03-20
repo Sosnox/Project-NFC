@@ -5,8 +5,12 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import os
+import uuid # ใช้สำหรับสร้างชื่อไฟล์ที่ไม่ซ้ำกัน
 
 app = FastAPI()
+
+if not os.path.exists("./uploaded_images"):
+    os.makedirs("./uploaded_images")
 
 origins = ["*"]
 
@@ -18,9 +22,9 @@ app.add_middleware(
     allow_headers=["*"],  # อนุญาตให้ใช้ทุก headers
 )
 
-app.mount("/static", StaticFiles(directory="./uploaded_images"), name="static")
+app.mount("/static", StaticFiles(directory="./uploaded_images"), name="static") #api/static/filename.jpg
 
-class FeedbackData(BaseModel):
+class FeedbackData(BaseModel): 
     name_report: str
     contact: str
     detail_report: str
@@ -50,7 +54,7 @@ class CardData(BaseModel):
 def connect_to_mysql():
     try:
         connection = mysql.connector.connect(
-            host="mysqldb", user="xenon", password="l3lazker", database="db-nfc-game"
+            host="DB_HOST", user="DB_USER", password="DB_PASSWORD", database="DB_NAME"
         )
         return connection
     except mysql.connector.Error as e:
@@ -172,16 +176,21 @@ async def post_card(
     file: UploadFile = File(...),
 ):
     try:
-        # Save uploaded file to a directory
-        file_location = f"./uploaded_images/{title_card}.jpg" #file_location = f"./uploaded_images/{file.filename}"
-        if not os.path.exists("./uploaded_images"):
-                    os.makedirs("./uploaded_images") 
-        with open(file_location, "wb") as buffer:
+        uid_filename = uuid.uuid4()
+        file_extension = file.filename.split(".")[-1] #img.png/jpg
+        file_location_card = f"./uploaded_images/{uid_filename}.{file_extension}"
+        filename = f"{uid_filename}.{file_extension}"
+
+        with open(file_location_card, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
         # Assuming 'insert_card_data' is adapted to accept a file path for 'path_image_card'
         response = insert_card_data(
-            title_card, detail_card, file_location, 0, 1 #title_card, detail_card, file_location, count_scan_card, id_boardgame
+            title_card,
+            detail_card,
+            filename,
+            count_scan_card,
+            id_boardgame #title_card, detail_card, file_location, count_scan_card, id_boardgame
         )
         return response
     except Exception as e:
@@ -237,14 +246,18 @@ async def post_boardgame(
     count_scan_boardgame: int = Form(...),
 ):
     try:
-        file_location_boardgame = f"./uploaded_images/{file.filename}"
+        uid_filename = uuid.uuid4()
+        file_extension = file.filename.split(".")[-1] #img.png/jpg
+        file_location_boardgame = f"./uploaded_images/{uid_filename}.{file_extension}"
+        filename = f"{uid_filename}.{file_extension}"
+
         with open(file_location_boardgame, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
         return insert_boardgame(
             title_game,
             detail_game,
-            file_location_boardgame,
+            filename,
             player_recommend_start,
             player_recommend_end,
             age_recommend,
@@ -285,10 +298,11 @@ def get_boardgame_data():
 async def get_card_by_id_boardgame(id_boardgame: int):
     try:
         card_data = get_card_data_by_id_boardgame_data(id_boardgame)
+        if not card_data:
+            return "No card data found for the given board game ID."
         return card_data
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
-
 
 def get_card_data_by_id_boardgame_data(id_boardgame: int):
     connection = connect_to_mysql()
