@@ -4,6 +4,7 @@ import mysql.connector
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+import os
 
 app = FastAPI()
 
@@ -173,6 +174,8 @@ async def post_card(
     try:
         # Save uploaded file to a directory
         file_location = f"./uploaded_images/{title_card}.png" #file_location = f"./uploaded_images/{file.filename}"
+        if not os.path.exists("./uploaded_images"):
+                    os.makedirs("./uploaded_images") 
         # with open(file_location, "wb") as buffer:
         #     shutil.copyfileobj(file.file, buffer)
 
