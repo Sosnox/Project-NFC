@@ -50,7 +50,7 @@ class CardData(BaseModel):
 def connect_to_mysql():
     try:
         connection = mysql.connector.connect(
-            host="mysqldb", user="xenon", password="xenon", database="db-nfc-game"
+            host="mysqldb", user="xenon", password="l3lazker", database="db-nfc-game"
         )
         return connection
     except mysql.connector.Error as e:
@@ -167,17 +167,17 @@ def insert_card_data(
 async def post_card(
     title_card: str = Form(...),
     detail_card: str = Form(...),
-    # count_scan_card: int = Form(...),
-    # id_boardgame: int = Form(...),
-    # file: UploadFile = File(...),
+    count_scan_card: int = Form(...),
+    id_boardgame: int = Form(...),
+    file: UploadFile = File(...),
 ):
     try:
         # Save uploaded file to a directory
-        file_location = f"./uploaded_images/{title_card}.png" #file_location = f"./uploaded_images/{file.filename}"
+        file_location = f"./uploaded_images/{title_card}.jpg" #file_location = f"./uploaded_images/{file.filename}"
         if not os.path.exists("./uploaded_images"):
                     os.makedirs("./uploaded_images") 
-        # with open(file_location, "wb") as buffer:
-        #     shutil.copyfileobj(file.file, buffer)
+        with open(file_location, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
 
         # Assuming 'insert_card_data' is adapted to accept a file path for 'path_image_card'
         response = insert_card_data(
