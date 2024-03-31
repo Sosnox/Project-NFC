@@ -90,13 +90,13 @@ export default function ShowCardPage() {
                     <CardBoard name={card} />
                 ))}
             </div>
-            <div className="mb-24 mt-4 grid grid-cols-3 gap-4">
+            {/* <div className="mb-24 mt-4 grid grid-cols-3 gap-4">
                 {cards.map((card) => (
                     <div key={card.id_card}>
                         <img src={`http://210.246.215.173:8000/static/${card.path_image_card}`} alt={card.title_card} width={300} height={400} />
                     </div>
                 ))}
-            </div>
+            </div> */}
         </div>
     );
 }
