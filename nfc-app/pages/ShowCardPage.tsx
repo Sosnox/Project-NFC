@@ -3,7 +3,7 @@ import selectAllCards from "@/api/selectAllCard";
 import CardBoard from "@/components/card_board";
 import Image from 'next/image';
 import Link from 'next/link';
-
+import Search from '@/components/input_search';
 
 interface Card {
     id_card: number,
@@ -79,13 +79,14 @@ export default function ShowCardPage() {
     // console.log(cards)
 
     return (
-        <div className="flex flex-col items-center justify-center mx-10">
-            <label className='text-2xl font-bold mt-10 mb-10 underline'>BoardGame : WareWolf</label>
+        <div className="flex flex-col items-center justify-center mx-10 mt-10">
+            <Search/>
+            <label className='text-2xl font-bold mb-10 underline'>BoardGame : WareWolf</label>
             <Link href={'./BoxBoardGame'}>
                 <Image src="/imageBoardGame/Werewolf.svg" alt="Werewolf" width={300} height={400} />
             </Link>
             <h1 className="mt-10 font-bold text-[20px]">การ์ดเกม WereWolf</h1>
-            <div className="mb-24 mt-4 grid grid-cols-3 gap-4">
+            <div className=" mt-4 grid grid-cols-3 gap-4">
                 {nameCard.map((card) => (
                     <CardBoard name={card} />
                 ))}

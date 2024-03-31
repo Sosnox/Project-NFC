@@ -18,7 +18,7 @@ export default function CardPage() {
   return (
     <div className="flex flex-col justify-center items-center p-12">
       <Card name={name} />
-      <DetailCard name={name} />
+      <p className='paragraph'><DetailCard name={name} /></p>
     </div>
   );
 }
