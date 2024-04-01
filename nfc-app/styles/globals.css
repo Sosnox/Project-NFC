@@ -12,7 +12,8 @@
 
 :root {
   --nav-size: 65px;
-  --nav-color: #CC6600;
+  --nav2-color: #AE70E9;
+  --nav-color: #0B3473;
   --menu-color: white;
 }
 
@@ -23,8 +24,7 @@
 
   width: 100%;
   height: var(--nav-size);
-  background-color: var(--nav-color);
-  
+  background-image: linear-gradient(90deg, var(--nav-color) 45%, var(--nav2-color));
 }
 
 .nav-item {
@@ -36,11 +36,19 @@
   height: var(--nav-size);
   background-color: var(--nav-color);
   padding: 10px;
-  color:white;
   position: fixed;
   bottom: 0;
   width: 100%;
+
 }
+.navi-bar label:hover{
+  color:#AE70E9;
+}
+
+.navi-icon {
+  background-image: linear-gradient(90deg, var(--nav-color), var(--nav2-color));
+}
+
 
 .icon:active {
   color: rgb(168, 162, 162);
@@ -87,7 +95,7 @@
 }
 
 .search-bar {
-  border: 2px solid #00B2FF;
+  border: 2px solid var(--nav-color);
   border-radius: 35px;
 }
 
@@ -127,13 +135,25 @@
   border-top: 2px solid black;
 }
 
+.paragraph {
+  text-align: center;
+}
 
+.icon-navi {
+  color: white; 
+}
 
-
-
-
-
-
+.icon-popup {
+  position: fixed;
+  bottom: 0%;
+  right: 0%;
+  transform: translate(-15%, -120%);
+  background-color: var(--nav-color);
+  padding: 10px;
+  border-radius: 50px;
+  color: white;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.7);
+}
 
 
 

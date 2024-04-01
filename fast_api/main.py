@@ -24,7 +24,7 @@ app.add_middleware(
 
 app.mount("/static", StaticFiles(directory="./uploaded_images"), name="static") #api/static/filename.jpg
 
-class FeedbackData(BaseModel):
+class FeedbackData(BaseModel): 
     name_report: str
     contact: str
     detail_report: str
