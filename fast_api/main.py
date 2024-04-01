@@ -54,7 +54,7 @@ class CardData(BaseModel):
 def connect_to_mysql():
     try:
         connection = mysql.connector.connect(
-            host="DB_HOST", user="DB_USER", password="DB_PASSWORD", database="DB_NAME"
+            host="mysqldb", user="xenon", password="l3lazker", database="db-nfc-game"
         )
         return connection
     except mysql.connector.Error as e:

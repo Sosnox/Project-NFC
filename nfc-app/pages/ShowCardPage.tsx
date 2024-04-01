@@ -10,7 +10,7 @@ interface Card {
     title_card: string,
     detail_card: string,
     path_image_card: string,
-    count_scan_card: number ,
+    count_scan_card: number,
 }
 
 type value = {
@@ -58,25 +58,25 @@ const nameCard = [
     "mystic",
     "alphawolf",
     "spellcaster"
-  ]
+]
 
 export default function ShowCardPage() {
     const [cards, setCards] = useState<Card[]>([]);
 
-    // useEffect(() => {
-    //     const fetchCards = async () => {
-    //         try {
-    //             const data = await selectAllCards(1);
-    //             setCards(data);
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //         }
-    //     };
+    useEffect(() => {
+        const fetchCards = async () => {
+            try {
+                const data = await selectAllCards(1);
+                setCards(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
 
-    //     fetchCards();
-    // }, []);
+        fetchCards();
+    }, []);
 
-    // console.log(cards)
+    console.log(cards)
 
     return (
         <div className="flex flex-col items-center justify-center mx-10 mt-10">
@@ -91,6 +91,13 @@ export default function ShowCardPage() {
                     <CardBoard name={card} />
                 ))}
             </div>
+            {/* <div className="mb-24 mt-4 grid grid-cols-3 gap-4">
+                {cards?.map((card) => (
+                    <div key={card.id_card}>
+                        <img src={`http://210.246.215.173:8000/static/${card.path_image_card}`} alt={card.title_card} width={300} height={400} />
+                    </div>
+                ))}
+            </div> */}
         </div>
     );
 }
