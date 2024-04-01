@@ -203,6 +203,7 @@ def insert_boardgame(
     path_image_boardgame: str,
     player_recommend_start: int,
     player_recommend_end: int,
+    recommend: bool,
     age_recommend: int,
     time_playing: int,
     count_scan_boardgame: int,
@@ -210,13 +211,14 @@ def insert_boardgame(
     connection = connect_to_mysql()
     cursor = connection.cursor()
     try:
-        query = "INSERT INTO BoardGame (title_game, detail_game, path_image_boardgame, player_recommend_start, player_recommend_end, age_recommend, time_playing, count_scan_boardgame) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO BoardGame (title_game, detail_game, path_image_boardgame, player_recommend_start, player_recommend_end, recommend, age_recommend, time_playing, count_scan_boardgame) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         data = (
             title_game,
             detail_game,
             path_image_boardgame,
             player_recommend_start,
             player_recommend_end,
+            recommend,
             age_recommend,
             time_playing,
             count_scan_boardgame,
@@ -241,6 +243,7 @@ async def post_boardgame(
     file: UploadFile = File(...),
     player_recommend_start: int = Form(...),
     player_recommend_end: int = Form(...),
+    recommend : bool = Form(...),
     age_recommend: int = Form(...),
     time_playing: int = Form(...),
     count_scan_boardgame: int = Form(...),
@@ -260,6 +263,7 @@ async def post_boardgame(
             filename,
             player_recommend_start,
             player_recommend_end,
+            recommend,
             age_recommend,
             time_playing,
             count_scan_boardgame,

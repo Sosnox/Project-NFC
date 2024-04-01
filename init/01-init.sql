@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS BoardGame (
     player_recommend_end INT,
     age_recommend INT,
     time_playing INT,
+    recommend BOOLEAN,
     count_scan_boardgame INT
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
