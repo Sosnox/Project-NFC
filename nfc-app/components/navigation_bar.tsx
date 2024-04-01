@@ -1,38 +1,46 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { FaHome } from "react-icons/fa";
-import { GiCardPick } from "react-icons/gi";
-import { PiDotsNineBold } from "react-icons/pi";
 
 
+import Card from "../styles/Img-icon/Home.svg";
+import Home from "../styles/Img-icon/Card.svg";
+import Service from "../styles/Img-icon/Service.svg";
+import PopupIcon from '@/components/popup_icon'
 
 export default function NavigationBar() {
     return (
-      <nav className="flex justify-between navi-bar">
+    <div className='container-navi mt-14'>
+      <nav className="flex justify-between  navi-bar">
 
         <div className="tranfrom translate-x-[20px] icon">
             <Link href={'/Home'}>
-                <FaHome size={30} className="icon-home"/>
-                <label htmlFor="icon-home" className="text-xs ">หน้าหลัก</label>
+                <Image src={Home} alt="home-navi"/>
+                <div className='translate translate-x-[-5px]'>
+                    <label htmlFor="icon" className="text-xs icon-navi">หน้าหลัก</label>
+                </div>
             </Link>
         </div>
 
         <div className="icon">
             <Link href={'/BoardGame'}>
-                <GiCardPick size={30}/>
-                <label htmlFor="icon-home" className="text-xs">เกมส์</label>
+                <Image src={Card} alt="home-navi"/>
+                <div className='translate translate-x-[5px]'>
+                    <label htmlFor="icon-home" className="text-xs icon-navi">เกมส์</label> 
+                </div>
             </Link>
         </div>
 
         <div className="tranfrom translate-x-[-20px] icon">
         <Link href={'/Service'}>
-                <PiDotsNineBold size={30} />
-                <label htmlFor="icon-home" className="text-xs">บริการ</label>
+                <Image src={Service} alt="home-navi"/>
+                <div className='translate translate-x-[2px]'>
+                    <label htmlFor="icon-home" className="text-xs icon-navi">บริการ</label>   
+                </div>
             </Link>
         </div>
-        
 
       </nav>
+    </div>
     )
 }
