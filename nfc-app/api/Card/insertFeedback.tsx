@@ -8,9 +8,11 @@ interface FeedbackData {
   checktypes: string;
 }
 
+const URL_POST_FEEDBACK = 'http://210.246.215.173:8000/post_feedback'
+
 const sendDataToFastAPI = async (data: FeedbackData): Promise<unknown> => {
   try {
-    const response: AxiosResponse<unknown> = await axios.post('http://210.246.215.173:8000/post_feedback', data, {
+    const response: AxiosResponse<unknown> = await axios.post(`${URL_POST_FEEDBACK}`, data, {
       headers: {
         'accept': 'application/json',
         'Content-Type': 'application/json',
