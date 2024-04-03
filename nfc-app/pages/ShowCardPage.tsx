@@ -19,6 +19,8 @@ type value = {
     nameCard: string;
 }
 
+const NEXT_PUBLIC_URL_image = 'http://210.246.215.173:8000/static/'
+
 const nameCard = [
     "villager",
     "werewolf",
@@ -66,7 +68,7 @@ export default function ShowCardPage() {
     useEffect(() => {
         const fetchCards = async () => {
             try {
-                const data = await selectAllCards(1);
+                const data = await selectAllCards(3);
                 setCards(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -85,19 +87,25 @@ export default function ShowCardPage() {
             <Link href={'./BoxBoardGame'}>
                 <Image src="/imageBoardGame/Werewolf.svg" alt="Werewolf" width={300} height={400} />
             </Link>
+{/* //boardgame */}
+
             <h1 className="mt-10 font-bold text-[20px]">การ์ดเกม WereWolf</h1>
             <div className=" mt-4 grid grid-cols-3 gap-4">
                 {nameCard.map((card) => (
                     <CardBoard name={card} />
                 ))}
             </div>
-            {/* <div className="mb-24 mt-4 grid grid-cols-3 gap-4">
-                {cards?.map((card) => (
+
+{/* //ใช้เเสดงรูปการ์ด */}
+            <h1 className="mt-10 font-bold text-[20px]">การ์ดเกม WereWolf</h1>
+            <div className="mb-24 mt-4 grid grid-cols-3 gap-4">
+                {Array.isArray(cards) ? cards.map((card) => (
                     <div key={card.id_card}>
-                        <img src={`http://210.246.215.173:8000/static/${card.path_image_card}`} alt={card.title_card} width={300} height={400} />
+                        <img src={`${NEXT_PUBLIC_URL_image}${card.path_image_card}`} alt={card.title_card} width={300} height={400} /> {/* รอเเก้ซ่อน Path */}
                     </div>
-                ))}
-            </div> */}
+                )) : <div>Not have Card</div>}
+            </div>
+{/* //ใช้เเสดงรูปการ์ด */}
         </div>
     );
 }

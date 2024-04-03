@@ -18,14 +18,11 @@ function AddGameTopic() {
                 <h1> บอร์ดเกมแนะนำ </h1>
             </div>
             <div className="flex justify-center gap-4 overflow-auto h-60">
-
                 {
                     images.map((image, index) => (
                         <Link href={'./ShowCardPage'}>  <BoardGameImage key={index} imageURL={image} /> </Link>
                 ))}
-
             </div>
-
         </div>
     );
 
@@ -33,7 +30,6 @@ function AddGameTopic() {
         return (
             <div className='boardgame shrink-0'>
                 <Image src={ imageURL } alt={ imageURL }/>
-                
             </div>
         );
     }
