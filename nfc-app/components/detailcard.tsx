@@ -52,12 +52,14 @@ const detailCard: DetailCardData = {
 
 };
 
-export default function DetailCard({ name }: DetailCardProps) {
+export default function DetailCard({ data }: any) {
   return (
     <div className='flex flex-col text-lg items-center '>
       <label className='text-[20px] font-bold my-5 underline'>ข้อมูลการ์ด</label>
       <div className='text-base '>
-        {detailCard[name]}
+        <p>ชื่อการ์ด : {data.title_card}</p>
+        <p>วิธีการเล่น : {data.tick_card}</p>
+        <p>รายละเอียด : {data.detail_card}</p>
       </div>
     </div>
   );

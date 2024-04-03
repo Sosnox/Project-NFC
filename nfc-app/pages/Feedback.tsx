@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import FiveStar from '@/components/fivestar';
-import sendDataToFastAPI from '@/api/Card/insertFeedback';
+import sendDataToFastAPI from '@/api/Feedback/insertFeedback';
 
 
 export default function FeedbackPage() {

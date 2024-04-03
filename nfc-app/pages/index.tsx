@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import HomePage from './Home';
-import CardPage from './Card';
+import CardPage from './Cards/[Card]';
 import BoardGamePage from './BoardGame';
 import NavBar from '../components/navbar'
 import BottomNav from '../components/navigation_bar'

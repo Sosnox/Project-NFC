@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS Card (
     id_card INT AUTO_INCREMENT PRIMARY KEY,
     title_card VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     detail_card TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    tick_card TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     path_image_card VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     count_scan_card INT
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -13,11 +14,13 @@ CREATE TABLE IF NOT EXISTS BoardGame (
     title_game VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     detail_game TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     path_image_boardgame VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    path_youtube VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     player_recommend_start INT,
     player_recommend_end INT,
     age_recommend INT,
     time_playing INT,
     recommend BOOLEAN,
+    type_game VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     count_scan_boardgame INT
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
