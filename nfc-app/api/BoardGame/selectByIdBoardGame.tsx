@@ -7,11 +7,13 @@ interface Data {
     title_game: string,
     detail_game: string,
     path_image_boardgame: string,
+    path_youtube: string,
     player_recommend_start: number,
     player_recommend_end: number,
     recommend : boolean
     age_recommend: number,
     time_playing: number,
+    type_game: string,
     count_scan_boardgame: number
 }
 
