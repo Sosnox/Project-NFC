@@ -148,7 +148,7 @@ def insert_card_data(
     cursor = connection.cursor()
     try:
         query = "INSERT INTO Card (title_card, detail_card, path_image_card, tick_card, count_scan_card) VALUES (%s, %s, %s, %s, %s)"
-        data = (title_card, detail_card, tick_card, path_image_card, count_scan_card)
+        data = (title_card, detail_card, path_image_card, tick_card, count_scan_card)
         cursor.execute(query, data)
         connection.commit()
 
@@ -219,7 +219,7 @@ def insert_boardgame(
     connection = connect_to_mysql()
     cursor = connection.cursor()
     try:
-        query = "INSERT INTO BoardGame (title_game, detail_game, path_image_boardgame, path_youtube, player_recommend_start, player_recommend_end, recommend, age_recommend, time_playing, type_game, count_scan_boardgame,) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO BoardGame (title_game, detail_game, path_image_boardgame, path_youtube, player_recommend_start, player_recommend_end, recommend, age_recommend, time_playing, type_game, count_scan_boardgame) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         data = (
             title_game,
             detail_game,
@@ -358,6 +358,35 @@ def get_boardgame_data_by_id_boardgame_data(id_boardgame: int):
     try:
         query = "SELECT * FROM BoardGame WHERE id_boardgame = %s"
         data = (id_boardgame,)
+        cursor.execute(query, data)
+        result = cursor.fetchall()
+        return result
+    except mysql.connector.Error as e:
+        raise HTTPException(
+            status_code=500, detail=f"Error fetching data from MySQL database: {e}"
+        )
+    finally:
+        cursor.close()
+        connection.close()
+
+
+@app.get("/get_card_by_name_boardgame/")
+async def get_Card_by_name_boardgame(name_boardgame: str):
+    try:
+        boardgame_data = get_Card_by_name_boardgame(name_boardgame)
+        if not boardgame_data:
+            return "No card data found for the given board game ID."
+        return boardgame_data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error processing request: {e}")
+
+
+def get_Card_by_name_boardgame(name_boardgame: str):
+    connection = connect_to_mysql()
+    cursor = connection.cursor(dictionary=True)  # Use dictionary=True here
+    try:
+        query = "SELECT * FROM Card WHERE title_card = %s"
+        data = (name_boardgame,)
         cursor.execute(query, data)
         result = cursor.fetchall()
         return result

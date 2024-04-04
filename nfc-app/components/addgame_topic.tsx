@@ -4,7 +4,7 @@ import CardBoard from '../components/card_board';
 import wherewolf from '../public/imageBoardGame/werewolf.jpg';
 import logo from '../public/tobecon.png';
 import Link from 'next/link'
-import ShowCardPage from '@/pages/ShowCardPage';
+
 
 function AddGameTopic() {
     
@@ -20,13 +20,13 @@ function AddGameTopic() {
             <div className="flex justify-center gap-4 overflow-auto h-60">
                 {
                     images.map((image, index) => (
-                        <Link href={'./ShowCardPage'}>  <BoardGameImage key={index} imageURL={image} /> </Link>
+                        <Link href={'./BoardGame/1'}>  <BoardGameImage key={index} imageURL={image} /> </Link>
                 ))}
             </div>
         </div>
     );
 
-    function BoardGameImage ({ imageURL }: { imageURL: any}){ 
+    function BoardGameImage ({ imageURL }: { imageURL: any}){
         return (
             <div className='boardgame shrink-0'>
                 <Image src={ imageURL } alt={ imageURL }/>

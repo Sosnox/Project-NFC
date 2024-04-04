@@ -48,54 +48,35 @@ const nameCard = [
   "spellcaster"
 ];
 
-
+interface Card {
+  id_card: number,
+  title_card: string,
+  detail_card: string,
+  path_image_card: string,
+  tick_card: string,
+  count_scan_card: number,
+}
 
 interface CardProps {
   name: string;
 }
 
-// interface CardProps {
-//   map(arg0: (name: string, index: number) => React.JSX.Element): React.ReactNode;
-//   card: {
-//     id_card: number,
-//     title_card: string,
-//     detail_card: string,
-//     path_image_card: string,
-//     count_scan_card: number,
-//   }
-// }
+const NEXT_PUBLIC_URL_image = 'http://210.246.215.173:8000/static/'
 
-
-// const CardBoard: React.FC<CardProps> = ({ card }) => {
-export default function CardBoard( { name}: { name: string} ) {
+export default function CardBoard( { data }: { data: Card} ) {
   const router = useRouter();
+  console.log(data, "data Caaaaard")
 
   const viewCard = (name: string) => {
-    router.push(`/Card/?name=${name}`);
+    router.push(`/Cards/${name}`);
   };
-
-  // console.log(card.title_card)
-
-//   return (
-//     <div className='h-full'>
-//         {/* // <div onClick={() => viewCard(card.title_card)} className="cursor-pointer">
-//         //     <Image
-//         //     src={`/img_re/${card.title_card}.png`}
-//         //     alt={card.title_card}
-//         //     width={300}
-//         //     height={280}
-//         //     />
-//         // </div> */}
-//     </div>
-//   );
-// };
 
 return (
   <div className='h-full'>
-      <div onClick={() => viewCard(name)} className="cursor-pointer"> 
+      <div onClick={() => viewCard(data.title_card)} className="cursor-pointer">
         <Image
-          src={`/img_re/${name}.png`}
-          alt={name}
+          src={`${NEXT_PUBLIC_URL_image}${data.path_image_card}`}
+          alt={data.title_card}
           width={300}
           height={280}
         />
